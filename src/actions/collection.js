@@ -1,4 +1,5 @@
 export const GET_COLLECTIONS = 'GET_COLLECTIONS';
+export const GET_COLLECTION = 'GET_COLLECTION';
 export const CREATE_COLLECTION = 'CREATE_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const EDIT_COLLECTION = 'EDIT_COLLECTION';
@@ -13,6 +14,13 @@ export const getAllCollections = () => (dispatch) => {
   dispatch({
     type: GET_COLLECTIONS,
     collections: COLLECTION_LIST
+  });
+};
+
+export const getCollection = (collection) => (dispatch) => {
+  dispatch({
+    type: GET_COLLECTION,
+    collection
   });
 };
 

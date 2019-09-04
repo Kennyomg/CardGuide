@@ -20,7 +20,7 @@ export const navigate = (location) => (dispatch) => {
   const pathname = location.pathname;
   const parts = pathname.slice(1).split('/');
   const page = parts[0] || 'scanner';
-  // book id is in the path: /collection/{collectionId}
+  // collection id is in the path: /collection/{collectionId}
   const collectionId = parts[1];
   // query is extracted from the search string: /explore?q={query}
   const match = RegExp('[?&]q=([^&]*)').exec(location.search);
@@ -51,7 +51,7 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
     case 'collections':
       await import('../components/my-collection-list.js');
       break;
-    case 'collection/1':
+    case 'collection':
       await import('../components/my-collection-single.js');
       break;
     default:
@@ -59,7 +59,7 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
       await import('../components/my-view404.js');
   }
 
-  dispatch(updatePage(page));
+  dispatch(updatePage(`${page}${collectionId ? "/" + collectionId : ""}`));
 
   /* const lazyLoadComplete = getState().app.lazyResourcesLoaded;
   // load lazy resources after render and set `lazyLoadComplete` when done.
