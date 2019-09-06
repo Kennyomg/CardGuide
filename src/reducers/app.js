@@ -21,6 +21,7 @@ const INITIAL_STATE = {
   offline: false,
   drawerOpened: false,
   snackbarOpened: false,
+  name: ''
 };
 
 const app = (state = INITIAL_STATE, action) => {
@@ -29,7 +30,7 @@ const app = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         page: action.page,
-        collectionId: action.collectionId
+        name: action.name
       };
     case UPDATE_OFFLINE:
       return {

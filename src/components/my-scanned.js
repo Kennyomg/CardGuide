@@ -32,6 +32,7 @@ import { SharedStyles } from './shared-styles.js';
 class Scanned extends connect(store)(PageViewElement) {
   static get properties() {
     return {
+      _card_name: { type: String },
       _card: { type: Object }
     };
   }
@@ -43,8 +44,8 @@ class Scanned extends connect(store)(PageViewElement) {
   }
 
   updated() {
-    if (!this._card.name) {
-      store.dispatch(getCard("Pot of Greed"));
+    if (!this._card.name && this._card_name) {
+      store.dispatch(getCard(this._card_name));
     }
   }
 
@@ -59,6 +60,7 @@ class Scanned extends connect(store)(PageViewElement) {
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
+    this._card_name = state.app.name;
     this._card = state.cardviewer.card;
   }
 }

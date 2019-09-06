@@ -10,6 +10,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 import { html, css } from 'lit-element';
 
+import slugify from 'slugify';
+
 import { TesseractWorker, utils } from 'tesseract.js';
 //import { TesseractWorker, utils } from 'tesseract.js';
 import { PageViewElement } from './page-view-element.js';
@@ -92,12 +94,32 @@ class Scanner extends PageViewElement {
   render() {
     return html`
     <section class="scanner-booth">
-      <input id="search-card" placeholder="Search card"></input>
+      <input id="search-card" placeholder="Search card" @keyup=${(e) => this.searchEnter(e)}></input>
+      <button @click=${this.searchButton}>Search</button>
       <h1 id="card-title"></h1>
       <video id="videoElement"></video>
       <div id="capture" class="circle capture-button"></div>
     </section>
     `;
+  }
+
+  searchEnter(e) {
+    const charCode = (e.which) ? e.which : e.keyCode;
+    if (charCode == 13) {
+      this.search(e.target.value);
+    }
+  }
+
+  searchButton() {
+    const name = this.shadowRoot.getElementById("search-card").value;
+    if (name) {
+      this.search(name);
+    }
+  }
+
+  search(name) {
+    const slug = slugify(name);
+    location.href = `/scanned/${slug}`;
   }
 }
 

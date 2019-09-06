@@ -33,7 +33,7 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 class CollectionSingle extends connect(store)(PageViewElement) {
   static get properties() {
     return {
-      _collection_id: { type: String },
+      _collection_name: { type: String },
       _collection: { type: Object }
     };
   }
@@ -68,27 +68,27 @@ class CollectionSingle extends connect(store)(PageViewElement) {
 
   constructor() {
     super();
-    this._collection_id = "";
+    this._collection_name = "";
     this._collection = { name: null };
   }
 
   updated() {
-    if (!this._collection || this._collection.name !== this._collection_id) {
-      store.dispatch(getCollection(this._collection_id));
+    if (!this._collection || this._collection.name !== this._collection_name) {
+      store.dispatch(getCollection(this._collection_name));
     }
   }
 
   render() {
     return html`
       <section>
-        <h2>${this._collection ? this._collection.name : ""}</h2>
+        <h2>${this._collection ? this._collection.name : "Box not found"}</h2>
       </section>
     `;
   }
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
-    this._collection_id = state.app.collectionId;
+    this._collection_name = state.app.name;
     this._collection = state.collection.collection;
   }
 }

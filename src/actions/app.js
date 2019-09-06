@@ -21,18 +21,18 @@ export const navigate = (location) => (dispatch) => {
   const parts = pathname.slice(1).split('/');
   const page = parts[0] || 'scanner';
   // collection id is in the path: /collection/{collectionId}
-  const collectionId = parts[1];
+  const name = parts[1];
   // query is extracted from the search string: /explore?q={query}
   const match = RegExp('[?&]q=([^&]*)').exec(location.search);
   const query = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
 
-  dispatch(loadPage(page, query, collectionId));
+  dispatch(loadPage(page, query, name));
 
   // Close the drawer - in case the *path* change came from a link in the drawer.
   dispatch(updateDrawerState(false));
 };
 
-const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
+const loadPage = (page, query, name) => async (dispatch, getState) => {
   let module;
 
   switch(page) {
@@ -59,7 +59,7 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
       await import('../components/my-view404.js');
   }
 
-  dispatch(updatePage(page, collectionId));
+  dispatch(updatePage(page, name));
 
   /* const lazyLoadComplete = getState().app.lazyResourcesLoaded;
   // load lazy resources after render and set `lazyLoadComplete` when done.
@@ -73,11 +73,11 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
   }*/
 };
 
-const updatePage = (page, collectionId) => {
+const updatePage = (page, name = null) => {
   return {
     type: UPDATE_PAGE,
     page,
-    collectionId
+    name
   };
 };
 
