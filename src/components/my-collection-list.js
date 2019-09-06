@@ -91,7 +91,7 @@ class CollectionList extends connect(store)(PageViewElement) {
       <section>
         <h2>List of collections</h2>
         <ul>
-          ${this._collection_list.map(val => html`<li><a href="/collection/${val}">${val}</a></li>`)}
+          ${this._collection_list.map(val => html`<li><a href="/collection/${val.name}">${val.name}</a></li>`)}
         </ul>
       </section>
     `;

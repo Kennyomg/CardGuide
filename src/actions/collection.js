@@ -3,12 +3,39 @@ export const GET_COLLECTION = 'GET_COLLECTION';
 export const CREATE_COLLECTION = 'CREATE_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const EDIT_COLLECTION = 'EDIT_COLLECTION';
+export const ADD_CARD = 'ADD_CARD';
 export const CREATE_FAILURE = 'CREATE_FAILURE';
 
 const COLLECTION_LIST = [
-  'Box1',
-  'Box2'
-]
+  {
+    name: 'Box1',
+    cards: [
+      {
+        name: "Pot of Greed",
+        quantity: 1,
+        price: 0.04
+      }
+    ],
+    options: {
+      isDeleted: false
+    },
+    price: 128.54
+  },
+  {
+    name: 'Box2',
+    cards: [
+      {
+        name: "Pot of Desires",
+        quantity: 3,
+        price: 25.00
+      }
+    ],
+    options: {
+      isDeleted: false
+    },
+    price: 128.54
+  },
+];
 
 export const getAllCollections = () => (dispatch) => {
   dispatch({
@@ -17,10 +44,13 @@ export const getAllCollections = () => (dispatch) => {
   });
 };
 
-export const getCollection = (collection) => (dispatch) => {
+export const getCollection = (collectionName) => (dispatch, getState) => {
+  const state = getState();
+  const foundCollection = state.collection.collections.find(el => el.name === collectionName);
+
   dispatch({
     type: GET_COLLECTION,
-    collection
+    collection: foundCollection
   });
 };
 
@@ -40,6 +70,30 @@ export const createCollection = (name) => (dispatch, getState) => {
 
   dispatch({
     type: CREATE_COLLECTION,
-    name
+    collection: {
+      name,
+      cards: [
+      ],
+      options: {
+        isDeleted: false
+      },
+      price: 0
+    }
   });
-}
+};
+
+export const addCard = (collection, card) => (dispatch, getState) => {
+    const state = getState();
+
+    state.collection.collections.map((val) => {
+      if (val.name === collection.name) {
+        val.cards.push(card);
+      }
+    });
+
+    dispatch({
+      type: ADD_CARD,
+      collection
+    });
+
+};

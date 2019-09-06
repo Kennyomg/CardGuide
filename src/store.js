@@ -23,6 +23,8 @@ import app from './reducers/app.js';
 // See https://github.com/zalmoxisus/redux-devtools-extension for more information.
 const devCompose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const persistedState = localStorage.getItem('CGState') ? JSON.parse(localStorage.getItem('CGState')) : {}
+
 // Initializes the Redux store with a lazyReducerEnhancer (so that you can
 // lazily add reducers after the store has been created) and redux-thunk (so
 // that you can dispatch async actions). See the "Redux and state management"
@@ -34,6 +36,10 @@ export const store = createStore(
     lazyReducerEnhancer(combineReducers),
     applyMiddleware(thunk))
 );
+
+store.subscribe(()=>{
+  localStorage.setItem('CGState', JSON.stringify(store.getState()))
+})
 
 // Initially loaded reducers.
 store.addReducers({

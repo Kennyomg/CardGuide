@@ -16,9 +16,12 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 
 // These are the actions needed by this element.
+import { getCollection } from '../actions/collection.js';
 
 // We are lazy loading its reducer.
+import collection from '../reducers/collection.js';
 store.addReducers({
+  collection
 });
 
 // These are the elements needed by this element.
@@ -30,7 +33,8 @@ import { ButtonSharedStyles } from './button-shared-styles.js';
 class CollectionSingle extends connect(store)(PageViewElement) {
   static get properties() {
     return {
-      // This is the data from the store.
+      _collection_id: { type: String },
+      _collection: { type: Object }
     };
   }
 
@@ -50,13 +54,6 @@ class CollectionSingle extends connect(store)(PageViewElement) {
           color: var(--app-primary-color);
         }
 
-        .cart,
-        .cart svg {
-          fill: var(--app-primary-color);
-          width: 64px;
-          height: 64px;
-        }
-
         .circle.small {
           margin-top: -72px;
           width: 28px;
@@ -69,16 +66,30 @@ class CollectionSingle extends connect(store)(PageViewElement) {
     ];
   }
 
+  constructor() {
+    super();
+    this._collection_id = "";
+    this._collection = { name: null };
+  }
+
+  updated() {
+    if (!this._collection || this._collection.name !== this._collection_id) {
+      store.dispatch(getCollection(this._collection_id));
+    }
+  }
+
   render() {
     return html`
       <section>
-        <h2>Single collection</h2>
+        <h2>${this._collection ? this._collection.name : ""}</h2>
       </section>
     `;
   }
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
+    this._collection_id = state.app.collectionId;
+    this._collection = state.collection.collection;
   }
 }
 

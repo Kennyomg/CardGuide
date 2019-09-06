@@ -28,7 +28,8 @@ const app = (state = INITIAL_STATE, action) => {
     case UPDATE_PAGE:
       return {
         ...state,
-        page: action.page
+        page: action.page,
+        collectionId: action.collectionId
       };
     case UPDATE_OFFLINE:
       return {

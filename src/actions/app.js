@@ -59,7 +59,7 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
       await import('../components/my-view404.js');
   }
 
-  dispatch(updatePage(`${page}${collectionId ? "/" + collectionId : ""}`));
+  dispatch(updatePage(page, collectionId));
 
   /* const lazyLoadComplete = getState().app.lazyResourcesLoaded;
   // load lazy resources after render and set `lazyLoadComplete` when done.
@@ -73,10 +73,11 @@ const loadPage = (page, query, collectionId) => async (dispatch, getState) => {
   }*/
 };
 
-const updatePage = (page) => {
+const updatePage = (page, collectionId) => {
   return {
     type: UPDATE_PAGE,
-    page
+    page,
+    collectionId
   };
 };
 

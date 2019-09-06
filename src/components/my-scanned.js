@@ -16,8 +16,13 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store } from '../store.js';
 
 // These are the actions needed by this element.
+import { getCard } from '../actions/cardviewer.js';
 
 // We are lazy loading its reducer.
+import cardviewer from '../reducers/cardviewer.js';
+store.addReducers({
+  cardviewer
+});
 
 // These are the elements needed by this element.
 
@@ -27,7 +32,7 @@ import { SharedStyles } from './shared-styles.js';
 class Scanned extends connect(store)(PageViewElement) {
   static get properties() {
     return {
-      // This is the data from the store.
+      _card: { type: Object }
     };
   }
 
@@ -37,16 +42,24 @@ class Scanned extends connect(store)(PageViewElement) {
     ];
   }
 
+  updated() {
+    if (!this._card.name) {
+      store.dispatch(getCard("Pot of Greed"));
+    }
+  }
+
   render() {
     return html`
       <section>
-        <h2>Scanned card</h2>
+        <h2>${this._card.name || "Card not found"}</h2>
+        <img src="${this._card.card_images[0].image_url}" alt="${this._card.name}">
       </section>
     `;
   }
 
   // This is called every time something is updated in the store.
   stateChanged(state) {
+    this._card = state.cardviewer.card;
   }
 }
 

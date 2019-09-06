@@ -225,7 +225,7 @@ class MyApp extends connect(store)(LitElement) {
         <my-scanner class="page" ?active="${this._page === 'scanner'}"></my-scanner>
         <my-scanned class="page" ?active="${this._page === 'scanned'}"></my-scanned>
         <my-collection-list class="page" ?active="${this._page === 'collections'}"></my-collection-list>
-        <my-collection-single class="page" ?active="${this._page === 'collection/1'}"></my-collection-single>
+        <my-collection-single class="page" ?active="${this._page === 'collection'}"></my-collection-single>
         <my-options class="page" ?active="${this._page === 'options'}"></my-options>
         <my-view404 class="page" ?active="${this._page === 'view404'}"></my-view404>
       </main>

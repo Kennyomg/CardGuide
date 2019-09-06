@@ -92,8 +92,9 @@ class Scanner extends PageViewElement {
   render() {
     return html`
     <section class="scanner-booth">
+      <input id="search-card" placeholder="Search card"></input>
       <h1 id="card-title"></h1>
-      <video id="videoElement" width="100%" max-height="300"></video>
+      <video id="videoElement"></video>
       <div id="capture" class="circle capture-button"></div>
     </section>
     `;
