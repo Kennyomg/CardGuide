@@ -26,6 +26,7 @@
   "dependencies": {
     "@polymer/app-layout": "^3.0.0",
     "@polymer/polymer": "^3.1.0",
+    "@tensorflow/tfjs": "^1.2.9",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "lit-element": "^2.0.0-rc.2",
     "pwa-helpers": "^0.9.0",
@@ -53,7 +54,7 @@
     "polymer-cli": "^1.9.3",
     "polyserve": "^0.27.0",
     "prpl-server": "^1.4.0",
-    "puppeteer": "^1.5.0",
+    "puppeteer": "^1.19.0",
     "rimraf": "^2.6.3",
     "wct-mocha": "^1.0.0",
     "webpack": "^4.10.2",

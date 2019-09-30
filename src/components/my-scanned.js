@@ -17,11 +17,14 @@ import { store } from '../store.js';
 
 // These are the actions needed by this element.
 import { getCard } from '../actions/cardviewer.js';
+import { addCard } from '../actions/collection.js';
 
 // We are lazy loading its reducer.
 import cardviewer from '../reducers/cardviewer.js';
+import collection from '../reducers/collection.js';
 store.addReducers({
-  cardviewer
+  cardviewer,
+  collection
 });
 
 // These are the elements needed by this element.
@@ -53,7 +56,11 @@ class Scanned extends connect(store)(PageViewElement) {
     return html`
       <section>
         <h2>${this._card.name || "Card not found"}</h2>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.cardmarket.com/en/YuGiOh/Products/Search?searchString=${this._card.name}">Card Market</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.db.yugioh-card.com/yugiohdb/card_search.action?ope=1&sess=1&keyword=${this._card.name.replace(/\s/g, '+')}&stype=1&ctype=&starfr=&starto=&pscalefr=&pscaleto=&linkmarkerfr=&linkmarkerto=&link_m=2&atkfr=&atkto=&deffr=&defto=&othercon=2">Card Search</a>
         <img src="${this._card.card_images[0].image_url}" alt="${this._card.name}">
+        <br>
+        <p>${JSON.stringify(this._card)}</p>
       </section>
     `;
   }

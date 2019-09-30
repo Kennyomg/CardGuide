@@ -118,7 +118,7 @@ class Scanner extends PageViewElement {
   }
 
   search(name) {
-    const slug = slugify(name);
+    const slug = slugify(name, { lower: true });
     location.href = `/scanned/${slug}`;
   }
 }

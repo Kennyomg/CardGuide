@@ -6,6 +6,6 @@ const carddb = require("../../assets/carddb.json");
 export const getCard = (name) => (dispatch) => {
   dispatch({
     type: GET_CARD,
-    card: carddb.find(el => slugify(el.name) === name)
+    card: carddb.find(el => slugify(el.name, { lower: true }) === name)
   });
 };

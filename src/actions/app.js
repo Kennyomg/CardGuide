@@ -14,6 +14,8 @@ export const UPDATE_DRAWER_STATE = 'UPDATE_DRAWER_STATE';
 export const OPEN_SNACKBAR = 'OPEN_SNACKBAR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
+import slugify from 'slugify';
+
 export const navigate = (location) => (dispatch) => {
   // Extract the page name from path.
 
@@ -21,7 +23,8 @@ export const navigate = (location) => (dispatch) => {
   const parts = pathname.slice(1).split('/');
   const page = parts[0] || 'scanner';
   // collection id is in the path: /collection/{collectionId}
-  const name = parts[1];
+
+  const name = slugify(parts[1] || "", { lower: true });
   // query is extracted from the search string: /explore?q={query}
   const match = RegExp('[?&]q=([^&]*)').exec(location.search);
   const query = match && decodeURIComponent(match[1].replace(/\+/g, ' '))
