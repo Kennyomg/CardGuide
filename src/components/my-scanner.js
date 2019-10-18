@@ -19,6 +19,8 @@ import { PageViewElement } from './page-view-element.js';
 // These are the shared styles needed by this element.
 import { SharedStyles } from './shared-styles.js';
 
+import * as mobilenet from '@tensorflow-models/mobilenet';
+
 //const { loadLang } = utils;
 
 class Scanner extends PageViewElement {
@@ -58,30 +60,20 @@ class Scanner extends PageViewElement {
         .then((stream) => {
           video.srcObject = stream;
           video.play();
-          console.log("Webcam started")
+          console.log("Webcam started");
 
 
 
-          capture.addEventListener('click', () => {
-            let canvas = document.createElement('canvas');
-            canvas.width = video.width;
-            canvas.height = video.height;
-            canvas.getContext('2d').drawImage(video, 0, 0)
-            //video.pause();
+          capture.addEventListener('click', async () => {
+            // Load the model.
+            const model = await mobilenet.load();
 
-            const worker = new TesseractWorker();
+            // Classify the image.
+            const predictions =  await model.classify(video);
 
-            utils.loadLang({ langs: 'eng', langPath: worker.options.langPath }).then(() => {
-              worker.recognize(canvas.toDataURL("img/jpg"))
-                    .progress(message => console.log(message))
-                    .catch(err => console.error(err))
-                    .then(result => {
-                      worker.terminate();
-                      console.log(result.text)
-                      this.shadowRoot.getElementById("card-title").innerHTML = result.text;
-                    })
-                    .finally(resultOrError => console.log(resultOrError));
-            });
+            console.log('Predictions: ');
+            console.log(predictions);
+
           });
 
         })

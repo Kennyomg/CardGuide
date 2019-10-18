@@ -38,7 +38,8 @@ class CollectionList extends connect(store)(PageViewElement) {
     return {
       // This is the data from the store.
       _collection_list: { type: Array },
-      _error: { type: String }
+      _error: { type: String },
+      _creation_input: { type: String },
     };
   }
 
@@ -90,6 +91,7 @@ class CollectionList extends connect(store)(PageViewElement) {
     return html`
       <section>
         <h2>List of collections</h2>
+        <input type="text" value="${this._creation_input}" placeholder="Collection name" on-change="${(e) => this._inputChanged(e) }" /><button on-click="${(e) => this._submitCollection() }">Create</button>
         <ul>
           ${this._collection_list.map(val => html`<li><a href="/collection/${val.name}">${val.name}</a></li>`)}
         </ul>
@@ -97,8 +99,19 @@ class CollectionList extends connect(store)(PageViewElement) {
     `;
   }
 
+  _inputChanged(e) {
+    console.log(e);
+    this._creation_input = e.currentTarget.value;
+  }
+
+  _submitCollection() {
+    console.log(this._creation_input);
+    store.dispatch(createCollection(this._creation_input));
+  }
+
   // This is called every time something is updated in the store.
   stateChanged(state) {
+    this._creation_input = state._creation_input;
     this._collection_list = state.collection.collections;
     this._error = state.collection.error;
   }
